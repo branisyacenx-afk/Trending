@@ -215,13 +215,13 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
             icon={DollarSign}
-            label="الرصيد"
+            label="آخر رصيد مسجل"
             value={`$${botStatus ? Number(botStatus.balance).toFixed(2) : '0.00'}`}
             color="teal"
           />
           <StatCard
             icon={botStatus && botStatus.last_24h_pnl >= 0 ? TrendingUp : TrendingDown}
-            label="أرباح آخر 24 ساعة"
+            label="آخر ربح/خسارة مسجل"
             value={`${botStatus && botStatus.last_24h_pnl >= 0 ? '+' : ''}$${botStatus ? Number(botStatus.last_24h_pnl).toFixed(2) : '0.00'}`}
             color={botStatus && botStatus.last_24h_pnl >= 0 ? 'teal' : 'red'}
           />
@@ -658,9 +658,9 @@ export default function DashboardPage() {
                             </p>
                           </div>
                           <div>
-                            <p className="text-slate-500 text-xs">الحالة</p>
+                            <p className="text-slate-500 text-xs">آخر حالة مسجلة</p>
                             <p className={`text-sm font-semibold ${acctBot.is_running ? 'text-teal-400' : 'text-slate-400'}`}>
-                              {acctBot.is_running ? 'يعمل' : 'متوقف'}
+                              {acctBot.is_running ? 'نشط حسب آخر تسجيل' : 'لا توجد إشارة تشغيل'}
                             </p>
                           </div>
                         </div>
@@ -677,7 +677,7 @@ export default function DashboardPage() {
         {activeTab === 'trades' && (
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-white font-bold text-lg">سجل الصفقات المباشر</h2>
+              <h2 className="text-white font-bold text-lg">سجل الصفقات</h2>
               <button
                 onClick={() => navigate('performance')}
                 className="text-teal-400 text-sm font-medium hover:text-teal-300 transition-colors"
