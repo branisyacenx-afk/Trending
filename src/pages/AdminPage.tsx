@@ -154,6 +154,7 @@ export default function AdminPage() {
                         <div>
                           <p className="text-white font-semibold">{account.account_number}</p>
                           <p className="text-slate-400 text-sm">{account.broker_name}</p>
+                          <p className="text-teal-400 text-xs">{account.account_type === 'real' ? 'حساب حقيقي' : 'حساب تجريبي'}</p>
                           <p className="text-slate-500 text-xs">{getProfileEmail(account.user_id)}</p>
                         </div>
                       </div>
@@ -194,6 +195,7 @@ export default function AdminPage() {
                         <th className="px-4 py-3 text-slate-400 text-sm font-medium">المستخدم</th>
                         <th className="px-4 py-3 text-slate-400 text-sm font-medium">رقم الحساب</th>
                         <th className="px-4 py-3 text-slate-400 text-sm font-medium">الوسيط</th>
+                        <th className="px-4 py-3 text-slate-400 text-sm font-medium">نوع الحساب</th>
                         <th className="px-4 py-3 text-slate-400 text-sm font-medium">الحالة</th>
                         <th className="px-4 py-3 text-slate-400 text-sm font-medium">الإجراءات</th>
                       </tr>
@@ -206,6 +208,7 @@ export default function AdminPage() {
                             <td className="px-4 py-3 text-slate-300 text-sm">{getProfileEmail(account.user_id)}</td>
                             <td className="px-4 py-3 text-white text-sm font-medium">{account.account_number}</td>
                             <td className="px-4 py-3 text-slate-300 text-sm">{account.broker_name}</td>
+                            <td className="px-4 py-3 text-teal-400 text-sm">{account.account_type === 'real' ? 'حقيقي' : 'تجريبي'}</td>
                             <td className="px-4 py-3">
                               <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full ${config.bg} ${config.color} text-xs font-medium`}>
                                 <config.icon className="w-3 h-3" />
