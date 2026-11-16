@@ -12,6 +12,7 @@ export interface Account {
   user_id: string;
   account_number: string;
   broker_name: string;
+  account_type: 'demo' | 'real';
   status: 'pending' | 'approved' | 'rejected';
   plan: string;
   created_at: string;

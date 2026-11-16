@@ -37,25 +37,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return nextProfile;
     }
 
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData.user) {
-      setProfile(null);
-      return null;
-    }
-
-    const { data: newProfile } = await supabase
-      .from('profiles')
-      .insert({
-        id: userData.user.id,
-        email: userData.user.email || '',
-        full_name: userData.user.user_metadata?.full_name || '',
-      })
-      .select()
-      .maybeSingle();
-
-    const nextProfile = newProfile as Profile | null;
-    setProfile(nextProfile);
-    return nextProfile;
+    // The database trigger creates profiles during signup. Do not let clients
+    // insert or mutate privileged profile fields when a row is unexpectedly missing.
+    setProfile(null);
+    return null;
   }, []);
 
   useEffect(() => {

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
-  Bot, TrendingUp, TrendingDown, DollarSign, Activity, Plus, Power,
+  Bot, TrendingUp, TrendingDown, DollarSign, Activity, Plus,
   RefreshCw, Clock, CheckCircle2, XCircle, Hourglass, Download,
-  Link2, Play, Settings2, AlertCircle, ArrowLeft, FileText, Server,
-  Wifi, Monitor, Rocket,
+  Link2, Settings2, AlertCircle, ArrowLeft, Monitor, Rocket,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from '@/context/RouterContext';
@@ -23,7 +22,6 @@ export default function DashboardPage() {
   const [newAccountType, setNewAccountType] = useState<'demo' | 'real'>('demo');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [togglingBot, setTogglingBot] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'accounts' | 'trades'>('overview');
 
   useEffect(() => {
@@ -83,6 +81,7 @@ export default function DashboardPage() {
         user_id: profile.id,
         account_number: newAccountNumber,
         broker_name: newBrokerName,
+        account_type: newAccountType,
         status: 'pending',
         plan: 'free',
       })
@@ -105,32 +104,6 @@ export default function DashboardPage() {
     setSubmitting(false);
   }
 
-  async function toggleBot(accountId: string, currentRunning: boolean) {
-    setTogglingBot(accountId);
-
-    const existing = botStatuses.find((b) => b.account_id === accountId);
-
-    if (existing) {
-      await supabase
-        .from('bot_status')
-        .update({ is_running: !currentRunning, updated_at: new Date().toISOString() })
-        .eq('account_id', accountId);
-    } else {
-      await supabase
-        .from('bot_status')
-        .insert({
-          account_id: accountId,
-          user_id: profile?.id,
-          is_running: !currentRunning,
-          balance: 0,
-          last_24h_pnl: 0,
-        });
-    }
-
-    await loadData();
-    setTogglingBot(null);
-  }
-
   async function deleteAccount(accountId: string) {
     await supabase.from('accounts').delete().eq('id', accountId);
     await loadData();
@@ -142,7 +115,6 @@ export default function DashboardPage() {
     .filter((t) => t.status === 'closed')
     .reduce((sum, t) => sum + Number(t.profit), 0);
   const openTrades = trades.filter((t) => t.status === 'open');
-  const closedTrades = trades.filter((t) => t.status === 'closed');
 
   if (authLoading || (session && !profile) || loading) {
     return (
@@ -162,7 +134,6 @@ export default function DashboardPage() {
 
   const hasNoAccounts = accounts.length === 0;
   const hasPendingOnly = accounts.length > 0 && !approvedAccount;
-  const isReady = approvedAccount && botStatus?.is_running;
 
   return (
     <div className="pt-16 min-h-screen">
@@ -183,7 +154,7 @@ export default function DashboardPage() {
               ابدأ رحلتك في 3 خطوات
             </h2>
             <p className="text-slate-400 text-sm mb-6">
-              اربط حساب التداول الخاص بك، احصل على موافقة المدير، ثم شغّل البوت للتداول الآلي.
+              أضف حساب MT5، انتظر المراجعة، ثم أكمل ربط المنصة واختبارها قبل أي تداول آلي.
             </p>
             <div className="grid sm:grid-cols-3 gap-4">
               <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-500/20">
@@ -203,7 +174,7 @@ export default function DashboardPage() {
               <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-7 h-7 rounded-lg bg-slate-600 text-white text-sm font-bold flex items-center justify-center">3</span>
-                  <span className="text-slate-300 font-semibold text-sm">شغّل البوت</span>
+                  <span className="text-slate-300 font-semibold text-sm">أكمل الربط</span>
                 </div>
                 <p className="text-slate-500 text-xs">ابدأ التداول الآلي</p>
               </div>
@@ -227,7 +198,7 @@ export default function DashboardPage() {
             <div className="flex-1">
               <h3 className="text-white font-semibold mb-1">بانتظار موافقة المدير</h3>
               <p className="text-slate-400 text-sm">
-                حسابك قيد المراجعة. سيتم تفعيل البوت فور موافقة المدير على حسابك. يمكنك التواصل مع الدعم عبر تيليغرام لتسريع العملية.
+                حسابك قيد المراجعة. بعد الموافقة، سنكمل إعداد الاتصال بمنصة MT5 قبل عرض أي حالة تشغيل فعلية.
               </p>
               <button
                 onClick={() => navigate('support')}
@@ -239,32 +210,17 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Bot is running banner */}
-        {isReady && (
-          <div className="mb-6 p-5 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-start gap-4 animate-fade-in">
-            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-teal-500/20 flex items-center justify-center animate-pulse-glow">
-              <Bot className="w-5 h-5 text-teal-400" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-white font-semibold mb-1">البوت يعمل بنجاح!</h3>
-              <p className="text-slate-400 text-sm">
-                البوت يتداول تلقائياً على حسابك المعتمد. يمكنك مراقبة الصفقات من قسم سجل الصفقات.
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Stats cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
             icon={DollarSign}
-            label="الرصيد"
+            label="آخر رصيد مسجل"
             value={`$${botStatus ? Number(botStatus.balance).toFixed(2) : '0.00'}`}
             color="teal"
           />
           <StatCard
             icon={botStatus && botStatus.last_24h_pnl >= 0 ? TrendingUp : TrendingDown}
-            label="أرباح آخر 24 ساعة"
+            label="آخر ربح/خسارة مسجل"
             value={`${botStatus && botStatus.last_24h_pnl >= 0 ? '+' : ''}$${botStatus ? Number(botStatus.last_24h_pnl).toFixed(2) : '0.00'}`}
             color={botStatus && botStatus.last_24h_pnl >= 0 ? 'teal' : 'red'}
           />
@@ -313,15 +269,13 @@ export default function DashboardPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-                      botStatus?.is_running ? 'bg-teal-500/20 animate-pulse-glow' : 'bg-slate-500/20'
+                      'bg-amber-500/10'
                     }`}>
-                      <Bot className={`w-7 h-7 ${botStatus?.is_running ? 'text-teal-400' : 'text-slate-400'}`} />
+                      <Bot className="w-7 h-7 text-amber-400" />
                     </div>
                     <div>
-                      <h2 className="text-white font-bold text-lg">حالة البوت</h2>
-                      <p className={`text-sm font-medium ${botStatus?.is_running ? 'text-teal-400' : 'text-slate-400'}`}>
-                        {botStatus?.is_running ? 'البوت يعمل' : 'البوت متوقف'}
-                      </p>
+                      <h2 className="text-white font-bold text-lg">اتصال منصة MT5</h2>
+                      <p className="text-sm font-medium text-amber-400">لم يتم التحقق من اتصال حي بعد</p>
                     </div>
                   </div>
 
@@ -332,22 +286,11 @@ export default function DashboardPage() {
                       <p className="text-slate-500 text-xs">{approvedAccount.broker_name}</p>
                     </div>
                     <button
-                      onClick={() => toggleBot(approvedAccount.id, botStatus?.is_running || false)}
-                      disabled={togglingBot === approvedAccount.id}
-                      className={`px-6 py-3 rounded-xl font-semibold transition-all disabled:opacity-50 ${
-                        botStatus?.is_running
-                          ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30'
-                          : 'bg-gradient-to-r from-teal-500 to-teal-600 text-white hover:from-teal-600 hover:to-teal-700 glow'
-                      }`}
+                      onClick={() => navigate('setup')}
+                      className="px-5 py-3 rounded-xl font-semibold bg-white/10 text-slate-200 hover:bg-white/15 transition-all"
                     >
-                      {togglingBot === approvedAccount.id ? (
-                        <RefreshCw className="w-5 h-5 animate-spin" />
-                      ) : (
-                        <>
-                          <Power className="inline w-5 h-5 ml-2" />
-                          {botStatus?.is_running ? 'إيقاف البوت' : 'تشغيل البوت'}
-                        </>
-                      )}
+                      <Settings2 className="inline w-5 h-5 ml-2" />
+                      إعداد اتصال MT5
                     </button>
                   </div>
                 </div>
@@ -368,7 +311,7 @@ export default function DashboardPage() {
                     <Download className="w-5 h-5 text-amber-400" />
                     <div>
                       <p className="text-slate-400 text-xs">البوت</p>
-                      <p className="text-white text-sm font-medium">تحميل ودليل التثبيت</p>
+                      <p className="text-white text-sm font-medium">طلب ملف الربط ودليل الإعداد</p>
                     </div>
                   </button>
                   <button
@@ -391,7 +334,7 @@ export default function DashboardPage() {
                   </div>
                   <h3 className="text-white font-bold text-lg mb-2">حسابك قيد المراجعة</h3>
                   <p className="text-slate-400 text-sm mb-4 max-w-md mx-auto">
-                    سيتم تفعيل التحكم في البوت فور موافقة المدير على حسابك. تحقق من حالة الحساب في تبويب "الحسابات".
+                    ستظهر خطوات الربط بعد مراجعة الحساب. الموافقة وحدها لا تعني أن منصة MT5 متصلة أو أن التداول بدأ.
                   </p>
                   <button
                     onClick={() => setActiveTab('accounts')}
@@ -469,7 +412,7 @@ export default function DashboardPage() {
                   <p className="text-slate-400 mb-1">لا توجد صفقات بعد</p>
                   <p className="text-slate-500 text-sm">
                     {approvedAccount
-                      ? 'شغّل البوت لبدء التداول الآلي'
+                      ? 'ستظهر الصفقات بعد ربط MT5 بمصدر بيانات موثوق.'
                       : 'اربط حسابك واحصل على موافقة لبدء التداول'}
                   </p>
                 </div>
@@ -615,7 +558,7 @@ export default function DashboardPage() {
                 <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-start gap-2 mb-4">
                   <AlertCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                   <p className="text-blue-400 text-xs">
-                    بعد إضافة الحساب، سيقوم المدير بمراجعته والموافقة عليه. ستصلك إشعار فور تفعيل الحساب.
+                    {newAccountType === "real" ? "هذا تسجيل لحساب حقيقي فقط؛ لن يتم تنفيذ أي صفقة حقيقية من هذه الواجهة. يجب إكمال اختبار الحساب التجريبي ومراجعة المخاطر قبل تفعيل التداول الحقيقي." : "هذا الحساب مخصص للتجربة. الموافقة الإدارية لا تعني أن MT5 متصل أو أن البوت بدأ التداول."}
                   </p>
                 </div>
 
@@ -668,6 +611,7 @@ export default function DashboardPage() {
                           <div>
                             <p className="text-white font-semibold text-lg">{account.account_number}</p>
                             <p className="text-slate-400 text-sm">{account.broker_name}</p>
+                            <p className="text-teal-400 text-xs">{account.account_type === 'real' ? 'حساب حقيقي' : 'حساب تجريبي'}</p>
                             <p className="text-slate-500 text-xs mt-0.5">
                               أُضيف في {new Date(account.created_at).toLocaleDateString('ar')}
                             </p>
@@ -680,27 +624,11 @@ export default function DashboardPage() {
                           {account.status === 'approved' && (
                             <div className="flex gap-2">
                               <button
-                                onClick={() => toggleBot(account.id, acctBot?.is_running || false)}
-                                disabled={togglingBot === account.id}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all disabled:opacity-50 ${
-                                  acctBot?.is_running
-                                    ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                                    : 'bg-teal-500/20 text-teal-400 hover:bg-teal-500/30'
-                                }`}
-                              >
-                                {togglingBot === account.id ? (
-                                  <RefreshCw className="w-3 h-3 animate-spin" />
-                                ) : (
-                                  <Power className="w-3 h-3" />
-                                )}
-                                {acctBot?.is_running ? 'إيقاف' : 'تشغيل'}
-                              </button>
-                              <button
                                 onClick={() => navigate('setup')}
-                                className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-xs font-medium hover:bg-amber-500/30 transition-colors"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-slate-200 rounded-lg text-xs font-medium hover:bg-white/15 transition-colors"
                               >
-                                <Download className="w-3 h-3" />
-                                تحميل
+                                <Settings2 className="w-3 h-3" />
+                                إعداد الاتصال
                               </button>
                             </div>
                           )}
@@ -729,9 +657,9 @@ export default function DashboardPage() {
                             </p>
                           </div>
                           <div>
-                            <p className="text-slate-500 text-xs">الحالة</p>
+                            <p className="text-slate-500 text-xs">آخر حالة مسجلة</p>
                             <p className={`text-sm font-semibold ${acctBot.is_running ? 'text-teal-400' : 'text-slate-400'}`}>
-                              {acctBot.is_running ? 'يعمل' : 'متوقف'}
+                              {acctBot.is_running ? 'نشط حسب آخر تسجيل' : 'لا توجد إشارة تشغيل'}
                             </p>
                           </div>
                         </div>
@@ -748,7 +676,7 @@ export default function DashboardPage() {
         {activeTab === 'trades' && (
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-white font-bold text-lg">سجل الصفقات المباشر</h2>
+              <h2 className="text-white font-bold text-lg">سجل الصفقات</h2>
               <button
                 onClick={() => navigate('performance')}
                 className="text-teal-400 text-sm font-medium hover:text-teal-300 transition-colors"
@@ -765,7 +693,7 @@ export default function DashboardPage() {
                 <p className="text-slate-400 mb-2">لا توجد صفقات بعد</p>
                 <p className="text-slate-500 text-sm">
                   {approvedAccount
-                    ? 'شغّل البوت لبدء التداول الآلي وستظهر الصفقات هنا'
+                    ? 'ستظهر الصفقات بعد ربط MT5 بمصدر بيانات موثوق.'
                     : 'اربط حسابك واحصل على موافقة لبدء التداول'}
                 </p>
               </div>
