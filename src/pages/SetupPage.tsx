@@ -25,8 +25,8 @@ export default function SetupPage() {
   const steps = [
     {
       num: '1',
-      title: 'تحميل ملف البوت',
-      desc: 'حمّل ملف البوت بصيغة .ex5 من زر التحميل في الأسفل.',
+      title: 'الحصول على ملف الربط الرسمي',
+      desc: 'اطلب ملف Expert Advisor المعتمد من الدعم بعد نشره والتحقق من مصدره وتوقيعه.'
     },
     {
       num: '2',
@@ -51,12 +51,12 @@ export default function SetupPage() {
     {
       num: '6',
       title: 'إضافة البوت للرسم',
-      desc: 'اسحب البوت onto الرسم البياني. في تبويب Common، ضع علامة على Allow Algo Trading.',
+      desc: 'بعد استلام النسخة الرسمية والتحقق منها، أضفها إلى الرسم البياني التجريبي أولاً واتبع تعليمات الإصدار.',
     },
     {
       num: '7',
       title: 'تفعيل التداول الآلي',
-      desc: 'فعّل زر Algo Trading في شريط الأدوات. الأيقونة في زاوية الرسم تشير إلى أن البوت نشط.',
+      desc: 'لا تفعّل Algo Trading إلا بعد اختبار النسخة على حساب تجريبي والتأكد من إعدادات المخاطرة والاتصال.',
     },
   ];
 
@@ -95,13 +95,13 @@ export default function SetupPage() {
           <div className="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-amber-500 items-center justify-center mb-4">
             <Download className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">دليل تثبيت البوت</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">دليل ربط منصة التداول</h1>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            ثبّت البوت على MetaTrader 5 وابدأ التداول على حسابك المعتمد.
+            حضّر حساب MT5، ولا تبدأ التداول الآلي قبل توفير ملف الربط الرسمي واختباره.
           </p>
         </div>
 
-        {/* Download button */}
+        {/* Official connector request */}
         <div className="glass-card rounded-2xl p-8 text-center mb-12 glow">
           <h2 className="text-white font-bold text-xl mb-2">طلب ملف الربط الرسمي</h2>
           <p className="text-slate-400 text-sm mb-6">لا يوجد حالياً ملف Expert Advisor موثّق داخل المستودع، لذلك لن نعرض زر تحميل وهمياً.</p>
