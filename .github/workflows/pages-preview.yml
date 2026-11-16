@@ -7,6 +7,11 @@ on:
     paths:
       - 'public/preview.html'
       - '.github/workflows/pages-preview.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/preview.html'
+      - '.github/workflows/pages-preview.yml'
   workflow_dispatch:
 
 permissions:
