@@ -30,6 +30,7 @@ REVOKE INSERT, UPDATE, DELETE ON public.trades FROM authenticated;
 REVOKE INSERT, UPDATE, DELETE ON public.bot_status FROM authenticated;
 
 REVOKE UPDATE ON public.payment_requests FROM authenticated;
+GRANT UPDATE (status) ON public.payment_requests TO authenticated;
 
 REVOKE UPDATE ON public.support_messages FROM authenticated;
 GRANT UPDATE (status) ON public.support_messages TO authenticated;
