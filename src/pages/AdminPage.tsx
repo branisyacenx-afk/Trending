@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, CheckCircle2, XCircle, Clock, MessageSquare, Settings, RefreshCw, DollarSign, TrendingUp, Activity } from 'lucide-react';
+import { Users, CheckCircle2, XCircle, Clock, MessageSquare, Settings, RefreshCw, DollarSign, Activity } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from '@/context/RouterContext';
 import { supabase } from '@/lib/supabase';
