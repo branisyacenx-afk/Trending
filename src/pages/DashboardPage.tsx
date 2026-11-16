@@ -23,7 +23,6 @@ export default function DashboardPage() {
   const [newAccountType, setNewAccountType] = useState<'demo' | 'real'>('demo');
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [togglingBot, setTogglingBot] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'accounts' | 'trades'>('overview');
 
   useEffect(() => {
@@ -83,6 +82,7 @@ export default function DashboardPage() {
         user_id: profile.id,
         account_number: newAccountNumber,
         broker_name: newBrokerName,
+        account_type: newAccountType,
         status: 'pending',
         plan: 'free',
       })
@@ -103,32 +103,6 @@ export default function DashboardPage() {
       await loadData();
     }
     setSubmitting(false);
-  }
-
-  async function toggleBot(accountId: string, currentRunning: boolean) {
-    setTogglingBot(accountId);
-
-    const existing = botStatuses.find((b) => b.account_id === accountId);
-
-    if (existing) {
-      await supabase
-        .from('bot_status')
-        .update({ is_running: !currentRunning, updated_at: new Date().toISOString() })
-        .eq('account_id', accountId);
-    } else {
-      await supabase
-        .from('bot_status')
-        .insert({
-          account_id: accountId,
-          user_id: profile?.id,
-          is_running: !currentRunning,
-          balance: 0,
-          last_24h_pnl: 0,
-        });
-    }
-
-    await loadData();
-    setTogglingBot(null);
   }
 
   async function deleteAccount(accountId: string) {
@@ -162,7 +136,6 @@ export default function DashboardPage() {
 
   const hasNoAccounts = accounts.length === 0;
   const hasPendingOnly = accounts.length > 0 && !approvedAccount;
-  const isReady = approvedAccount && botStatus?.is_running;
 
   return (
     <div className="pt-16 min-h-screen">
@@ -239,21 +212,6 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Bot is running banner */}
-        {isReady && (
-          <div className="mb-6 p-5 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-start gap-4 animate-fade-in">
-            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-teal-500/20 flex items-center justify-center animate-pulse-glow">
-              <Bot className="w-5 h-5 text-teal-400" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-white font-semibold mb-1">البوت يعمل بنجاح!</h3>
-              <p className="text-slate-400 text-sm">
-                البوت يتداول تلقائياً على حسابك المعتمد. يمكنك مراقبة الصفقات من قسم سجل الصفقات.
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Stats cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
@@ -318,10 +276,8 @@ export default function DashboardPage() {
                       <Bot className={`w-7 h-7 ${botStatus?.is_running ? 'text-teal-400' : 'text-slate-400'}`} />
                     </div>
                     <div>
-                      <h2 className="text-white font-bold text-lg">حالة البوت</h2>
-                      <p className={`text-sm font-medium ${botStatus?.is_running ? 'text-teal-400' : 'text-slate-400'}`}>
-                        {botStatus?.is_running ? 'البوت يعمل' : 'البوت متوقف'}
-                      </p>
+                      <h2 className="text-white font-bold text-lg">اتصال منصة MT5</h2>
+                      <p className="text-sm font-medium text-amber-400">لم يتم التحقق من اتصال حي بعد</p>
                     </div>
                   </div>
 
@@ -332,23 +288,12 @@ export default function DashboardPage() {
                       <p className="text-slate-500 text-xs">{approvedAccount.broker_name}</p>
                     </div>
                     <button
-                      onClick={() => toggleBot(approvedAccount.id, botStatus?.is_running || false)}
-                      disabled={togglingBot === approvedAccount.id}
-                      className={`px-6 py-3 rounded-xl font-semibold transition-all disabled:opacity-50 ${
-                        botStatus?.is_running
-                          ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30'
-                          : 'bg-gradient-to-r from-teal-500 to-teal-600 text-white hover:from-teal-600 hover:to-teal-700 glow'
-                      }`}
+                      onClick={() => navigate('setup')}
+                      className="px-5 py-3 rounded-xl font-semibold bg-white/10 text-slate-200 hover:bg-white/15 transition-all"
                     >
-                      {togglingBot === approvedAccount.id ? (
-                        <RefreshCw className="w-5 h-5 animate-spin" />
-                      ) : (
-                        <>
-                          <Power className="inline w-5 h-5 ml-2" />
-                          {botStatus?.is_running ? 'إيقاف البوت' : 'تشغيل البوت'}
-                        </>
-                      )}
-                    </button>
+                      <Settings2 className="inline w-5 h-5 ml-2" />
+                      إعداد اتصال MT5
+                    </button>           </button>
                   </div>
                 </div>
 
@@ -668,6 +613,7 @@ export default function DashboardPage() {
                           <div>
                             <p className="text-white font-semibold text-lg">{account.account_number}</p>
                             <p className="text-slate-400 text-sm">{account.broker_name}</p>
+                            <p className="text-teal-400 text-xs">{account.account_type === 'real' ? 'حساب حقيقي' : 'حساب تجريبي'}</p>
                             <p className="text-slate-500 text-xs mt-0.5">
                               أُضيف في {new Date(account.created_at).toLocaleDateString('ar')}
                             </p>
@@ -680,21 +626,12 @@ export default function DashboardPage() {
                           {account.status === 'approved' && (
                             <div className="flex gap-2">
                               <button
-                                onClick={() => toggleBot(account.id, acctBot?.is_running || false)}
-                                disabled={togglingBot === account.id}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all disabled:opacity-50 ${
-                                  acctBot?.is_running
-                                    ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                                    : 'bg-teal-500/20 text-teal-400 hover:bg-teal-500/30'
-                                }`}
+                                onClick={() => navigate('setup')}
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-slate-200 rounded-lg text-xs font-medium hover:bg-white/15 transition-colors"
                               >
-                                {togglingBot === account.id ? (
-                                  <RefreshCw className="w-3 h-3 animate-spin" />
-                                ) : (
-                                  <Power className="w-3 h-3" />
-                                )}
-                                {acctBot?.is_running ? 'إيقاف' : 'تشغيل'}
-                              </button>
+                                <Settings2 className="w-3 h-3" />
+                                إعداد الاتصال
+                              </button>                     </button>
                               <button
                                 onClick={() => navigate('setup')}
                                 className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-xs font-medium hover:bg-amber-500/30 transition-colors"
