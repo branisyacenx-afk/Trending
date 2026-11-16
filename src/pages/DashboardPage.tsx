@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   Bot, TrendingUp, TrendingDown, DollarSign, Activity, Plus,
   RefreshCw, Clock, CheckCircle2, XCircle, Hourglass, Download,
-  Link2, Play, Settings2, AlertCircle, ArrowLeft, FileText, Server,
-  Wifi, Monitor, Rocket,
+  Link2, Settings2, AlertCircle, ArrowLeft, Monitor, Rocket,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from '@/context/RouterContext';
