@@ -103,17 +103,17 @@ export default function SetupPage() {
 
         {/* Download button */}
         <div className="glass-card rounded-2xl p-8 text-center mb-12 glow">
-          <h2 className="text-white font-bold text-xl mb-2">تحميل البوت</h2>
-          <p className="text-slate-400 text-sm mb-6">حمّل ملف البوت بصيغة .ex5 واتبع الخطوات أدناه</p>
+          <h2 className="text-white font-bold text-xl mb-2">طلب ملف الربط الرسمي</h2>
+          <p className="text-slate-400 text-sm mb-6">لا يوجد حالياً ملف Expert Advisor موثّق داخل المستودع، لذلك لن نعرض زر تحميل وهمياً.</p>
           <button
             onClick={() => navigate('support')}
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-xl font-semibold text-lg hover:from-teal-600 hover:to-teal-700 transition-all glow"
           >
             <Download className="w-5 h-5" />
-            تحميل البوت (.ex5)
+            طلب ملف الربط من الدعم
           </button>
           <p className="text-slate-500 text-xs mt-4">
-            تواصل مع الدعم عبر تيليغرام للحصول على رابط التحميل
+            لا تثبّت ملفات EX5 من مصادر غير موثوقة، ولا تفعّل التداول الحقيقي قبل اختبار النسخة على حساب تجريبي.
           </p>
         </div>
 
