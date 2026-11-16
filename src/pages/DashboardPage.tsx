@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Bot, TrendingUp, TrendingDown, DollarSign, Activity, Plus, Power,
+  Bot, TrendingUp, TrendingDown, DollarSign, Activity, Plus,
   RefreshCw, Clock, CheckCircle2, XCircle, Hourglass, Download,
   Link2, Play, Settings2, AlertCircle, ArrowLeft, FileText, Server,
   Wifi, Monitor, Rocket,
