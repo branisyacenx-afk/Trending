@@ -115,7 +115,6 @@ export default function DashboardPage() {
     .filter((t) => t.status === 'closed')
     .reduce((sum, t) => sum + Number(t.profit), 0);
   const openTrades = trades.filter((t) => t.status === 'open');
-  const closedTrades = trades.filter((t) => t.status === 'closed');
 
   if (authLoading || (session && !profile) || loading) {
     return (
