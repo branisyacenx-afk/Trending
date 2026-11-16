@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071321"><title>صقور الجزائر | النسخة التجريبية المجانية</title>
+<style>
+:root{color-scheme:dark;--bg:#071321;--panel:#102235;--panel2:#142b41;--line:#234057;--muted:#91a9bb;--text:#edf5fb;--green:#20c997;--red:#ff6b75;--gold:#e8b95c;--blue:#59a9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102b43 0,#071321 55%);color:var(--text);font:15px system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:22px max(18px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);background:#071321cc;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#e7b75b,#8d5b19);display:grid;place-items:center;color:#071321;font-size:24px;font-weight:900}.brand b{font-size:18px}.brand small{display:block;color:var(--muted);font-size:12px}
+.pill{border:1px solid #266b5b;color:#73e5bd;background:#103b35;padding:7px 11px;border-radius:99px;font-size:12px}
+main{max-width:1180px;margin:24px auto;padding:0 16px}.notice{background:#352b16;border:1px solid #70572b;color:#f3d99d;padding:12px 15px;border-radius:12px;margin-bottom:18px;font-size:13px;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:17px;min-width:0}.metric small{color:var(--muted)}.metric strong{display:block;font-size:25px;margin-top:8px;direction:ltr;text-align:right;font-variant-numeric:tabular-nums}.positive{color:var(--green)}.negative{color:var(--red)}
+.section{margin-top:18px}.section h2{font-size:17px;margin:0 0 12px}.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}
+.chart{height:230px;position:relative;overflow:hidden}.chart svg{width:100%;height:100%}.chart .axis{stroke:#2a455b;stroke-width:1;stroke-dasharray:4 6}.chart .area{fill:url(#fill)}.chart .line{fill:none;stroke:#42d6ac;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.symbol{font-weight:700}.sub{font-size:12px;color:var(--muted);margin-top:3px}.price{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#1a344b;color:var(--text);font:inherit;cursor:pointer}.btn:hover{filter:brightness(1.15)}.buy{background:#0c5948;border-color:#197c64}.sell{background:#652d39;border-color:#984352}.gold{background:#75531b;border-color:#a57a30;color:#fff2ce}
+form{display:grid;gap:10px}label{color:var(--muted);font-size:12px}input,select{width:100%;background:#091a29;border:1px solid var(--line);border-radius:9px;color:var(--text);padding:11px;font:inherit;margin-top:5px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:right;padding:12px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-weight:500}td.num{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+.empty{text-align:center;color:var(--muted);padding:24px}.footer{color:var(--muted);font-size:12px;text-align:center;padding:26px 10px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}header{padding:14px 16px}.metric strong{font-size:21px}}
+@media(max-width:420px){.grid{gap:8px}.card{padding:13px}.metric strong{font-size:18px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}table{font-size:11px}th,td{padding:10px 5px}}
+</style></head>
+<body>
+<header><div class="brand"><div class="logo">ص</div><div><b>صقور الجزائر</b><small>منصة التداول التجريبية</small></div></div><span class="pill">● وضع Demo مجاني</span></header>
+<main>
+<div class="notice"><b>تنبيه مهم:</b> هذه بيئة محاكاة محلية للتدريب فقط. الأسعار والرصيد والصفقات افتراضية، ولا يوجد اتصال ببورصة أو وسيط أو حساب MT5، ولا تُرسل أوامر حقيقية. تحفظ تجاربك على هذا المتصفح فقط.</div>
+<div class="grid">
+<div class="card metric"><small>رصيد الحساب التجريبي</small><strong id="balance">10,000.00 $</strong></div>
+<div class="card metric"><small>حقوق الملكية</small><strong id="equity">10,000.00 $</strong></div>
+<div class="card metric"><small>الربح / الخسارة العائمة</small><strong id="floating">0.00 $</strong></div>
+<div class="card metric"><small>الصفقات المفتوحة</small><strong id="openCount">0</strong></div>
+</div>
+<div class="layout section">
+<section class="card"><h2>نظرة على السوق <span class="sub">أسعار تدريبية متغيرة محلياً</span></h2><div class="chart"><svg viewBox="0 0 700 220" preserveAspectRatio="none" aria-label="رسم بياني افتراضي"><defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#20c997" stop-opacity=".3"/><stop offset="1" stop-color="#20c997" stop-opacity="0"/></linearGradient></defs><path class="axis" d="M0 35H700M0 90H700M0 145H700M0 200H700"/><path id="area" class="area" d=""/><path id="line" class="line" d=""/></svg></div><div id="quotes"></div></section>
+<section class="card"><h2>فتح صفقة تجريبية</h2><form id="tradeForm"><div class="formgrid"><div><label>الأصل</label><select id="symbol"><option value="EURUSD">EUR/USD</option><option value="GBPUSD">GBP/USD</option><option value="XAUUSD">Gold (XAU/USD)</option><option value="BTCUSD">Bitcoin</option></select></div><div><label>نوع الصفقة</label><select id="side"><option value="buy">شراء</option><option value="sell">بيع</option></select></div><div><label>الحجم (لوت تدريبي)</label><input id="lots" type="number" min=".01" max="2" step=".01" value=".10" required></div><div><label>وقف الخسارة (اختياري)</label><input id="sl" type="number" min="0" step=".0001" placeholder="السعر"></div><div class="full"><label>جني الأرباح (اختياري)</label><input id="tp" type="number" min="0" step=".0001" placeholder="السعر"></div></div><div class="actions"><button class="btn buy" type="submit">فتح شراء / بيع تجريبي</button><button class="btn gold" type="button" id="reset">إعادة ضبط الحساب</button></div><div class="sub" id="formMsg">تُحتسب نتائج المحاكاة على رصيد افتراضي قدره 10,000$.</div></form></section>
+</div>
+<section class="card section"><h2>الصفقات المفتوحة</h2><div style="overflow-x:auto"><table><thead><tr><th>الأصل</th><th>النوع</th><th>الحجم</th><th>سعر الدخول</th><th>السعر الحالي</th><th>ربح/خسارة</th><th>إجراء</th></tr></thead><tbody id="positions"></tbody></table></div></section>
+<section class="card section"><h2>سجل العمليات</h2><div id="history" class="empty">لا توجد عمليات بعد.</div></section>
+<div class="footer">صقور الجزائر © نسخة تدريبية مجانية — لا تستخدم هذه المحاكاة لاتخاذ قرارات استثمارية.</div>
+</main>
+<script>
+(()=>{
+const initial=10000, base={EURUSD:1.0842,GBPUSD:1.2715,XAUUSD:2385.4,BTCUSD:67250};
+let state={balance:initial,positions:[],history:[],prices:{...base},ticks:0};
+const $=id=>document.getElementById(id), fmt=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const save=()=>{try{localStorage.setItem('saqoor-demo-v1',JSON.stringify(state))}catch(e){}};
+try{const saved=JSON.parse(localStorage.getItem('saqoor-demo-v1'));if(saved&&saved.prices&&Array.isArray(saved.positions)&&Array.isArray(saved.history))state={...state,...saved}}catch(e){}
+function pnl(p){const diff=state.prices[p.symbol]-p.entry;return (p.side==='buy'?diff:-diff)*p.lots*(p.symbol==='BTCUSD'?1:p.symbol==='XAUUSD'?10:100000)}
+function render(){
+const floating=state.positions.reduce((s,p)=>s+pnl(p),0),equity=state.balance+floating;
+$('balance').textContent=fmt(state.balance)+' $';$('equity').textContent=fmt(equity)+' $';$('floating').textContent=fmt(floating)+' $';$('floating').className=floating>=0?'positive':'negative';$('openCount').textContent=state.positions.length;
+$('quotes').innerHTML=Object.keys(base).map(s=>'<div class="row"><div><div class="symbol">'+({EURUSD:'EUR/USD',GBPUSD:'GBP/USD',XAUUSD:'Gold',BTCUSD:'Bitcoin'}[s])+'</div><div class="sub">'+s+'</div></div><div class="price">'+fmt(state.prices[s],s.includes('USD')&&s!=='BTCUSD'?s==='XAUUSD'?2:4:2)+' $</div></div>').join('');
+$('positions').innerHTML=state.positions.length?state.positions.map(p=>{const v=pnl(p);return '<tr><td>'+p.symbol+'</td><td class="'+(p.side==='buy'?'positive':'negative')+'">'+(p.side==='buy'?'شراء':'بيع')+'</td><td class="num">'+p.lots.toFixed(2)+'</td><td class="num">'+fmt(p.entry,4)+'</td><td class="num">'+fmt(state.prices[p.symbol],4)+'</td><td class="num '+(v>=0?'positive':'negative')+'">'+fmt(v)+' $</td><td><button class="btn" data-close="'+p.id+'">إغلاق</button></td></tr>'}).join(''):'<tr><td colspan="7" class="empty">لا توجد صفقات مفتوحة.</td></tr>';
+$('history').innerHTML=state.history.length?state.history.slice(0,12).map(h=>'<div class="row"><div><b>'+h.text+'</b><div class="sub">'+h.time+'</div></div><strong class="'+(h.value>=0?'positive':'negative')+'">'+(h.value>=0?'+':'')+fmt(h.value)+' $</strong></div>').join(''):'لا توجد عمليات بعد.';
+}
+function log(text,value=0){state.history.unshift({text,value,time:new Date().toLocaleString('ar-DZ')});state.history=state.history.slice(0,30)}
+$('tradeForm').addEventListener('submit',e=>{e.preventDefault();const symbol=$('symbol').value,side=$('side').value,lots=Number($('lots').value),sl=Number($('sl').value)||null,tp=Number($('tp').value)||null;if(!Number.isFinite(lots)||lots<.01||lots>2){$('formMsg').textContent='الحجم يجب أن يكون بين 0.01 و2 لوت.';return}const p={id:Date.now(),symbol,side,lots,entry:state.prices[symbol],sl,tp};state.positions.unshift(p);log('فتح '+(side==='buy'?'شراء':'بيع')+' '+symbol+' بحجم '+lots+' لوت');$('formMsg').textContent='تم فتح صفقة افتراضية في المحاكي فقط.';save();render()});
+$('positions').addEventListener('click',e=>{const id=Number(e.target.dataset.close);if(!id)return;const i=state.positions.findIndex(p=>p.id===id);if(i<0)return;const p=state.positions.splice(i,1)[0],v=pnl(p);state.balance+=v;log('إغلاق '+p.symbol,v);save();render()});
+$('reset').addEventListener('click',()=>{if(!confirm('إعادة الحساب إلى 10,000$ وحذف سجل المحاكاة؟'))return;state={balance:initial,positions:[],history:[],prices:{...base},ticks:0};save();render();$('formMsg').textContent='تمت إعادة ضبط الحساب التجريبي.'});
+const samples=[];for(let i=0;i<40;i++)samples.push(110+Math.sin(i/4)*18+Math.cos(i/7)*10);
+function draw(){const pts=samples.map((v,i)=>(i/39*700)+','+(190-v)).join(' ');$('line').setAttribute('d','M'+pts.replaceAll(' ',',L'));$('area').setAttribute('d','M'+pts.replaceAll(' ',',L')+' L700,220 L0,220 Z')}
+function tick(){state.ticks++;for(const s of Object.keys(base)){const vol=s==='BTCUSD'?0.0015:s==='XAUUSD'?0.0007:0.00018;state.prices[s]*=1+(Math.random()-.5)*vol}for(const p of [...state.positions]){const price=state.prices[p.symbol],hitSL=p.sl&&(p.side==='buy'?price<=p.sl:price>=p.sl),hitTP=p.tp&&(p.side==='buy'?price>=p.tp:price<=p.tp);if(hitSL||hitTP){const i=state.positions.findIndex(x=>x.id===p.id);if(i>=0){state.positions.splice(i,1);const v=pnl(p);state.balance+=v;log('إغلاق تلقائي '+p.symbol+' ('+(hitSL?'وقف الخسارة':'جني الأرباح')+')',v)}}}if(state.ticks%5===0)save();render()}
+draw();render();setInterval(tick,2500);
+})();
+</script></body></html>
