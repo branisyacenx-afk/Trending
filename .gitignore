@@ -21,3 +21,4 @@ dist-ssr
 *.sln
 *.sw?
 .env
+\n# Python MT5 bridge local files\n.venv/\nvenv/\n__pycache__/\n*.py[cod]\n.pytest_cache/\n
