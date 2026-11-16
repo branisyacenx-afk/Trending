@@ -155,7 +155,7 @@ export default function DashboardPage() {
               ابدأ رحلتك في 3 خطوات
             </h2>
             <p className="text-slate-400 text-sm mb-6">
-              اربط حساب التداول الخاص بك، احصل على موافقة المدير، ثم شغّل البوت للتداول الآلي.
+              أضف حساب MT5، انتظر المراجعة، ثم أكمل ربط المنصة واختبارها قبل أي تداول آلي.
             </p>
             <div className="grid sm:grid-cols-3 gap-4">
               <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-500/20">
@@ -175,7 +175,7 @@ export default function DashboardPage() {
               <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-7 h-7 rounded-lg bg-slate-600 text-white text-sm font-bold flex items-center justify-center">3</span>
-                  <span className="text-slate-300 font-semibold text-sm">شغّل البوت</span>
+                  <span className="text-slate-300 font-semibold text-sm">أكمل الربط</span>
                 </div>
                 <p className="text-slate-500 text-xs">ابدأ التداول الآلي</p>
               </div>
@@ -413,7 +413,7 @@ export default function DashboardPage() {
                   <p className="text-slate-400 mb-1">لا توجد صفقات بعد</p>
                   <p className="text-slate-500 text-sm">
                     {approvedAccount
-                      ? 'شغّل البوت لبدء التداول الآلي'
+                      ? 'ستظهر الصفقات بعد ربط MT5 بمصدر بيانات موثوق.'
                       : 'اربط حسابك واحصل على موافقة لبدء التداول'}
                   </p>
                 </div>
@@ -559,7 +559,7 @@ export default function DashboardPage() {
                 <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-start gap-2 mb-4">
                   <AlertCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                   <p className="text-blue-400 text-xs">
-                    بعد إضافة الحساب، سيقوم المدير بمراجعته والموافقة عليه. ستصلك إشعار فور تفعيل الحساب.
+                    {newAccountType === "real" ? "هذا تسجيل لحساب حقيقي فقط؛ لن يتم تنفيذ أي صفقة حقيقية من هذه الواجهة. يجب إكمال اختبار الحساب التجريبي ومراجعة المخاطر قبل تفعيل التداول الحقيقي." : "هذا الحساب مخصص للتجربة. الموافقة الإدارية لا تعني أن MT5 متصل أو أن البوت بدأ التداول."}
                   </p>
                 </div>
 
