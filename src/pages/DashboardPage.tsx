@@ -199,7 +199,7 @@ export default function DashboardPage() {
             <div className="flex-1">
               <h3 className="text-white font-semibold mb-1">بانتظار موافقة المدير</h3>
               <p className="text-slate-400 text-sm">
-                حسابك قيد المراجعة. سيتم تفعيل البوت فور موافقة المدير على حسابك. يمكنك التواصل مع الدعم عبر تيليغرام لتسريع العملية.
+                حسابك قيد المراجعة. بعد الموافقة، سنكمل إعداد الاتصال بمنصة MT5 قبل عرض أي حالة تشغيل فعلية.
               </p>
               <button
                 onClick={() => navigate('support')}
@@ -270,9 +270,9 @@ export default function DashboardPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-                      botStatus?.is_running ? 'bg-teal-500/20 animate-pulse-glow' : 'bg-slate-500/20'
+                      'bg-amber-500/10'
                     }`}>
-                      <Bot className={`w-7 h-7 ${botStatus?.is_running ? 'text-teal-400' : 'text-slate-400'}`} />
+                      <Bot className="w-7 h-7 text-amber-400" />
                     </div>
                     <div>
                       <h2 className="text-white font-bold text-lg">اتصال منصة MT5</h2>
@@ -292,7 +292,7 @@ export default function DashboardPage() {
                     >
                       <Settings2 className="inline w-5 h-5 ml-2" />
                       إعداد اتصال MT5
-                    </button>           </button>
+                    </button>
                   </div>
                 </div>
 
@@ -312,7 +312,7 @@ export default function DashboardPage() {
                     <Download className="w-5 h-5 text-amber-400" />
                     <div>
                       <p className="text-slate-400 text-xs">البوت</p>
-                      <p className="text-white text-sm font-medium">تحميل ودليل التثبيت</p>
+                      <p className="text-white text-sm font-medium">طلب ملف الربط ودليل الإعداد</p>
                     </div>
                   </button>
                   <button
@@ -335,7 +335,7 @@ export default function DashboardPage() {
                   </div>
                   <h3 className="text-white font-bold text-lg mb-2">حسابك قيد المراجعة</h3>
                   <p className="text-slate-400 text-sm mb-4 max-w-md mx-auto">
-                    سيتم تفعيل التحكم في البوت فور موافقة المدير على حسابك. تحقق من حالة الحساب في تبويب "الحسابات".
+                    ستظهر خطوات الربط بعد مراجعة الحساب. الموافقة وحدها لا تعني أن منصة MT5 متصلة أو أن التداول بدأ.
                   </p>
                   <button
                     onClick={() => setActiveTab('accounts')}
@@ -630,13 +630,6 @@ export default function DashboardPage() {
                               >
                                 <Settings2 className="w-3 h-3" />
                                 إعداد الاتصال
-                              </button>                     </button>
-                              <button
-                                onClick={() => navigate('setup')}
-                                className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-xs font-medium hover:bg-amber-500/30 transition-colors"
-                              >
-                                <Download className="w-3 h-3" />
-                                تحميل
                               </button>
                             </div>
                           )}
@@ -701,7 +694,7 @@ export default function DashboardPage() {
                 <p className="text-slate-400 mb-2">لا توجد صفقات بعد</p>
                 <p className="text-slate-500 text-sm">
                   {approvedAccount
-                    ? 'شغّل البوت لبدء التداول الآلي وستظهر الصفقات هنا'
+                    ? 'ستظهر الصفقات بعد ربط MT5 بمصدر بيانات موثوق.'
                     : 'اربط حسابك واحصل على موافقة لبدء التداول'}
                 </p>
               </div>
