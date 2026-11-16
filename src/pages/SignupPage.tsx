@@ -38,7 +38,7 @@ export default function SignupPage() {
       };
       setError(messages[error] || error);
     } else {
-      navigate('dashboard');
+      setSuccess(true);
     }
   }
 
